@@ -1,0 +1,27 @@
+name: Prime Prediction
+
+
+entry_points:
+  freq_model:
+    parameters:
+      remote_server_uri: {type: str, default: https://user-ahmed-mlflow.user.lab.sspcloud.fr}
+      experiment_name: {type: str, default: Optimisation}
+      run_name: {type: str, default: default}
+      kernel: {type: str, default: poly}
+      degree: {type: int, default: 3}
+      class_weight: {type: str, default: balanced}
+    command: "python src/mlflow/trainer_freq.py {remote_server_uri} {experiment_name} {run_name} {kernel} {degree} {class_weight}"
+
+  reg_model:
+    parameters:
+      remote_server_uri: {type: str, default: https://user-ahmed-mlflow.user.lab.sspcloud.fr}
+      experiment_name: {type: str, default: Optimisation}
+      run_name: {type: str, default: default}
+      n_estimators: {type: int, default: 4}
+      max_depth: {type: int, default: 7}
+    command: "python src/mlflow/trainer_reg.py {remote_server_uri} {experiment_name} {run_name} {n_estimators} {max_depth}"
+
+
+
+
+

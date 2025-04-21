@@ -1,0 +1,7 @@
+freq:
+  kernel: ['poly', 'rbf']
+  degree: [3,4]
+  class_weight: ['balanced']
+reg:
+  n_estimators: [200]
+  max_depth: [7] 

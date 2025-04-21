@@ -1,0 +1,34 @@
+# Creating MLflow deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codification-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codification-api
+  template:
+    metadata:
+      labels:
+        app: codification-api
+    spec:
+      containers:
+        - name: api
+          image: ahmed577/primepredict:main
+          imagePullPolicy: Always
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: https://user-ahmed-mlflow.user.lab.sspcloud.fr
+            - name: MLFLOW_MODEL_FREQ_NAME
+              value: model_freq
+            - name: MLFLOW_MODEL_FREQ_VERSION
+              value: "2"
+            - name: MLFLOW_MODEL_REG_NAME
+              value: model_reg
+            - name: MLFLOW_MODEL_REG_VERSION
+              value: "2"
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"

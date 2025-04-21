@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prime-predict-api
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/AhmedProj/PrimePredict.git
+    targetRevision: HEAD
+    path: kubernetes
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: user-ahmed
+  syncPolicy:
+    automated:
+      selfHeal: true
