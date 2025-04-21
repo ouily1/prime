@@ -1,0 +1,82 @@
+name: Image Build
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - notebooks/**
+      - README.md
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  image-build:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
+      ECR_REPO: primepredict
+      AWS_ACCOUNT_ID: 467072721756
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install unittest2
+          pip install pylint
+
+      - name: Run unit tests
+        run: |
+          python -m unittest unit_test/test_build_pipeline.py
+          python -m unittest unit_test/test_model_evaluate.py
+          python -m unittest unit_test/test_models.py
+
+      - name: Lint
+        run: |
+          pylint src/pipeline/preprocessing.py --fail-under=7
+          pylint src/pipeline/build_pipeline.py --fail-under=7
+          pylint src/model/model_evaluate.py --fail-under=7
+          pylint src/model/models.py --fail-under=7
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPO }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::467072721756:role/github-actions-ecr-deploy
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
