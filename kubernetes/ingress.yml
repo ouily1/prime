@@ -5,9 +5,9 @@ metadata:
 spec:
   tls:
     - hosts:
-        - primepredict-api.lab.sspcloud.fr
+        - ad845eda6081647f58682e9417c03b15-16144412.us-east-1.elb.amazonaws.com
   rules:
-    - host: primepredict-api.lab.sspcloud.fr
+    - host: ad845eda6081647f58682e9417c03b15-16144412.us-east-1.elb.amazonaws.com
       http:
         paths:
           - path: /
