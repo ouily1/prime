@@ -1,7 +1,7 @@
 # PrimePredict
 
 
-## Description du Projet
+## Description 
 ICI  Ce dépôt contient le développement d'un modèle de machine learning avancé destiné à prédire le total des paiements de sinistres d'assurance. Notre méthode est conçue pour faciliter le calcul des primes annuelles matérielles pour un jeu de données comprenant 48 045 contrats d'assurance pour l'année 2011.
 
 ## Objectif
