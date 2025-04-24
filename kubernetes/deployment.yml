@@ -15,11 +15,11 @@ spec:
     spec:
       containers:
         - name: api
-          image: ahmed577/primepredict:main
+          image: 467072721756.dkr.ecr.us-east-1.amazonaws.com/primepredict:1.1
           imagePullPolicy: Always
           env:
             - name: MLFLOW_TRACKING_URI
-              value: https://user-ahmed-mlflow.user.lab.sspcloud.fr
+              value: http://ec2-3-216-23-113.compute-1.amazonaws.com:5000
             - name: MLFLOW_MODEL_FREQ_NAME
               value: model_freq
             - name: MLFLOW_MODEL_FREQ_VERSION
