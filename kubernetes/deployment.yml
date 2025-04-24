@@ -29,6 +29,9 @@ spec:
             - name: MLFLOW_MODEL_REG_VERSION
               value: "2"
           resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
             limits:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "1000m"
